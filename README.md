@@ -4,7 +4,16 @@
 
 The project focuses on structured planning, evidence selection, claim verification, conflict detection, uncertainty calibration, and cited synthesis. It is designed for local or HPC training with compact base models such as Qwen3-1.7B and other models in the 1B–3B range.
 
-> Status: research prototype. The repository contains training, evaluation, reward, data-building, and SLURM utilities. Published checkpoints will be released separately on Hugging Face.
+> Status: research prototype. The RL-lite adapter and tested GGUF quantizations are published under the Ethosoft organization on Hugging Face.
+
+## Published models
+
+- **PEFT adapter:** [Ethosoft/Qwen3-1.7B-ResearchReasoning-JSON-RL](https://huggingface.co/Ethosoft/Qwen3-1.7B-ResearchReasoning-JSON-RL)
+- **GGUF quantizations:** [Ethosoft/Qwen3-1.7B-ResearchReasoning-JSON-RL-GGUF](https://huggingface.co/Ethosoft/Qwen3-1.7B-ResearchReasoning-JSON-RL-GGUF)
+
+The released model is based on `Qwen/Qwen3-1.7B` and is specialized for evidence-grounded research reasoning, source-aware QA, claim verification, and strict JSON schema generation. The project name **RL-lite** refers to verifier-guided rejection sampling followed by supervised fine-tuning; it is not a full online policy-gradient RL run.
+
+The model is schema-sensitive. For best results, require valid JSON explicitly, list all required fields, disable markdown, and restrict evidence entries to source IDs present in the prompt.
 
 ## Core idea
 
@@ -135,6 +144,15 @@ The current public-benchmark results are **diagnostic runs rather than official 
 
 These results show task specialization rather than uniform general-QA improvement. See the benchmark report before quoting any score.
 
+## VibeThinker inspiration and attribution
+
+QA-Research-SLM is **conceptually inspired by the VibeThinker line of work** on eliciting verifiable reasoning capabilities in compact language models. This project was independently trained for evidence-grounded research reasoning and strict JSON generation; it does **not** reuse VibeThinker weights, training data, or code.
+
+Related work:
+
+- Sen Xu et al., *Tiny Model, Big Logic: Diversity-Driven Optimization Elicits Large-Model Reasoning Ability in VibeThinker-1.5B*, arXiv:2511.06221, 2025.
+- Sen Xu et al., *VibeThinker-3B: Exploring the Frontier of Verifiable Reasoning in Small Language Models*, arXiv:2606.16140, 2026.
+
 ## Current limitations
 
 - The project is experimental and not production-ready.
@@ -146,7 +164,7 @@ These results show task specialization rather than uniform general-QA improvemen
 ## Roadmap
 
 - publish reproducible SFT datasets or generation recipes
-- release adapters and model cards on Hugging Face
+- run full official benchmark evaluations and expand quantization diagnostics
 - add unit tests and continuous integration
 - standardize benchmark reports
 - improve constrained JSON generation

@@ -1,0 +1,36 @@
+{
+  "validation_type": "GGUF binary header and structural-count validation",
+  "runtime_note": "A CPU-only llama.cpp generation test on TRUBA exceeded a five-minute startup timeout for Q8_0. Quant-specific runtime and JSON benchmarks are therefore not claimed.",
+  "results": [
+    {
+      "quantization": "Q8_0",
+      "file": "Qwen3-1.7B-ResearchReasoning-JSON-RL-Q8_0.gguf",
+      "size_bytes": 1834426080,
+      "magic": "GGUF",
+      "gguf_version": 3,
+      "tensor_count": 310,
+      "metadata_kv_count": 29,
+      "structural_header_ok": true
+    },
+    {
+      "quantization": "Q5_K_M",
+      "file": "Qwen3-1.7B-ResearchReasoning-JSON-RL-Q5_K_M.gguf",
+      "size_bytes": 1257879264,
+      "magic": "GGUF",
+      "gguf_version": 3,
+      "tensor_count": 310,
+      "metadata_kv_count": 29,
+      "structural_header_ok": true
+    },
+    {
+      "quantization": "Q4_K_M",
+      "file": "Qwen3-1.7B-ResearchReasoning-JSON-RL-Q4_K_M.gguf",
+      "size_bytes": 1107408608,
+      "magic": "GGUF",
+      "gguf_version": 3,
+      "tensor_count": 310,
+      "metadata_kv_count": 29,
+      "structural_header_ok": true
+    }
+  ]
+}

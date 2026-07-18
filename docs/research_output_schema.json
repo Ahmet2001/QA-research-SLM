@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ResearchReasonerOutput",
+  "type": "object",
+  "required": [
+    "task_type",
+    "research_plan",
+    "evidence_needed",
+    "selected_sources",
+    "claims",
+    "conflicts",
+    "uncertainties",
+    "answer"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "task_type": {"type": "string"},
+    "research_plan": {"type": "array", "items": {"type": "string"}},
+    "evidence_needed": {"type": "array", "items": {"type": "string"}},
+    "selected_sources": {"type": "array", "items": {"type": "string"}},
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["claim", "status", "confidence", "evidence", "importance"],
+        "additionalProperties": false,
+        "properties": {
+          "claim": {"type": "string"},
+          "status": {"type": "string"},
+          "confidence": {"type": ["number", "string"]},
+          "evidence": {"type": "array", "items": {"type": "string"}},
+          "importance": {"type": ["string", "number"]}
+        }
+      }
+    },
+    "conflicts": {"type": "array"},
+    "uncertainties": {"type": "array", "items": {"type": "string"}},
+    "answer": {"type": "string"}
+  }
+}
