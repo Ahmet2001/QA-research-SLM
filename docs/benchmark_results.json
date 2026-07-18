@@ -1,0 +1,99 @@
+{
+  "status": "diagnostic_not_official_leaderboard",
+  "base_model": "Qwen/Qwen3-1.7B",
+  "models": {
+    "base": null,
+    "rl_lite": "outputs/research_reasoner_1p7b_v2_rl_lite",
+    "real_compact_flat": "outputs/research_reasoner_1p7b_real_compact_flat"
+  },
+  "benchmarks": {
+    "pubmedqa": {
+      "dataset": "pubmed_qa/pqa_labeled",
+      "split": "train",
+      "n": 80,
+      "official_submission": false,
+      "runs": {
+        "base": {
+          "label_accuracy": 0.0125,
+          "label_attempt_rate": 0.1625,
+          "mean_verifier_reward": -0.19
+        },
+        "rl_lite": {
+          "label_accuracy": 0.525,
+          "label_attempt_rate": 0.85,
+          "mean_verifier_reward": 0.775
+        },
+        "real_compact_flat": {
+          "label_accuracy": 0.225,
+          "label_attempt_rate": 0.9375,
+          "mean_verifier_reward": 0.72184375
+        }
+      }
+    },
+    "hotpotqa_distractor": {
+      "dataset": "hotpot_qa/distractor",
+      "split": "validation",
+      "n": 200,
+      "seed": 2026,
+      "official_submission": false,
+      "notes": "Evidence F1 is source-document level. Joint F1 is a local proxy, not the official HotpotQA joint metric.",
+      "runs": {
+        "base": {
+          "answer_em": 0.005,
+          "answer_f1": 0.15249122190214495,
+          "evidence_source_f1": 0.6484819624819625,
+          "joint_f1_proxy": 0.11230904029581548,
+          "json_valid_rate": 0.935,
+          "mean_verifier_reward": 0.6756458333333336
+        },
+        "rl_lite": {
+          "answer_em": 0.27,
+          "answer_f1": 0.36907806028394247,
+          "evidence_source_f1": 0.5560761183261186,
+          "joint_f1_proxy": 0.23789033047562447,
+          "json_valid_rate": 0.955,
+          "mean_verifier_reward": 0.8757055555555554
+        },
+        "real_compact_flat": {
+          "answer_em": 0.15,
+          "answer_f1": 0.2200972910476078,
+          "evidence_source_f1": 0.5393982683982691,
+          "joint_f1_proxy": 0.14048334182157715,
+          "json_valid_rate": 0.895,
+          "mean_verifier_reward": 0.6649405555555554
+        }
+      }
+    },
+    "scifact": {
+      "dataset": "official SciFact release archive",
+      "split": "claims_dev",
+      "n": 200,
+      "seed": 2026,
+      "official_submission": false,
+      "notes": "Evidence F1 is abstract-document level for SUPPORT/CONTRADICT examples, not official sentence-rationale scoring.",
+      "runs": {
+        "base": {
+          "label_accuracy": 0.535,
+          "label_macro_f1": 0.41463497742567507,
+          "evidence_source_f1_supported_or_contradicted": 0.5878531073446326,
+          "json_valid_rate": 0.89,
+          "mean_verifier_reward": 0.6044800000000008
+        },
+        "rl_lite": {
+          "label_accuracy": 0.4,
+          "label_macro_f1": 0.26209417883164693,
+          "evidence_source_f1_supported_or_contradicted": 0.45069276298089833,
+          "json_valid_rate": 0.92,
+          "mean_verifier_reward": 0.7869766666666664
+        },
+        "real_compact_flat": {
+          "label_accuracy": 0.49,
+          "label_macro_f1": 0.4102234576940882,
+          "evidence_source_f1_supported_or_contradicted": 0.6326741996233521,
+          "json_valid_rate": 0.79,
+          "mean_verifier_reward": 0.6111308333333334
+        }
+      }
+    }
+  }
+}

@@ -123,6 +123,18 @@ sbatch jobs/05_sft_chat_overfit_smoke.sh
 
 Some files are retained as experiment history rather than polished one-command recipes.
 
+## Public benchmark diagnostics
+
+The current public-benchmark results are **diagnostic runs rather than official leaderboard submissions**. Full settings, limitations, and machine-readable summaries are available in [docs/BENCHMARK_RESULTS.md](docs/BENCHMARK_RESULTS.md).
+
+| Benchmark | Best adapter result | Base result | Diagnostic size |
+|---|---:|---:|---:|
+| PubMedQA PQA-L | RL-lite: **52.50% label accuracy** | 1.25% | 80 |
+| HotpotQA Distractor | RL-lite: **27.00 EM / 36.91 F1** | 0.50 EM / 15.25 F1 | 200 |
+| SciFact claims-dev | Real-compact-flat: **63.27% evidence-source F1**; base retained the best label accuracy | 53.50% label accuracy | 200 |
+
+These results show task specialization rather than uniform general-QA improvement. See the benchmark report before quoting any score.
+
 ## Current limitations
 
 - The project is experimental and not production-ready.
