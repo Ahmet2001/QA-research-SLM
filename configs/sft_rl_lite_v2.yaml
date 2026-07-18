@@ -1,0 +1,34 @@
+run_name: rr_v2_rl_lite
+base_model: Qwen/Qwen3-1.7B
+init_adapter: outputs/research_reasoner_1p7b_v2_schema_hard
+output_dir: outputs/research_reasoner_1p7b_v2_rl_lite
+max_seq_length: 4096
+packing: false
+
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+
+optimizer:
+  learning_rate: 0.000005
+  warmup_ratio: 0.03
+  weight_decay: 0.0
+  lr_scheduler_type: cosine
+  optim: paged_adamw_8bit
+
+batching:
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 4
+  num_train_epochs: 1
+
+logging:
+  save_steps: 100
+  eval_steps: 20
+  logging_steps: 5
+  report_to: none
+
+data:
+  train_file: data/processed/rl_rejection_sft_v2_flat.jsonl
+  eval_file: data/processed/eval_v2_flat.jsonl

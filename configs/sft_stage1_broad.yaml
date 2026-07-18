@@ -1,0 +1,59 @@
+run_name: ResearchReasoner-1.7B-SFT-stage1-broad
+base_model: Qwen/Qwen3-1.7B
+output_dir: outputs/research_reasoner_1p7b_sft_stage1
+
+training_objective: qlora_sft
+max_seq_length: 8192
+packing: true
+
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+optimizer:
+  learning_rate: 0.00002
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  lr_scheduler_type: cosine
+  optim: paged_adamw_8bit
+
+batching:
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 16
+  num_train_epochs: 2
+
+logging:
+  save_steps: 500
+  eval_steps: 250
+  logging_steps: 10
+  report_to: tensorboard
+
+data:
+  train_file: data/processed/sft_stage1_broad.jsonl
+  eval_file: data/processed/eval_research_reasoner.jsonl
+  task_mix:
+    research_planning: 0.15
+    document_qa: 0.20
+    evidence_extraction: 0.20
+    claim_verification: 0.20
+    conflict_resolution: 0.10
+    cited_synthesis: 0.15
+
+paper_alignment:
+  vibe_thinker_stage: "Stage 1 Broad Coverage SFT"
+  adaptation: "mixed-domain research SFT with reliable supervision signals"
+  reliable_signals:
+    - evidence spans
+    - source IDs
+    - support/refute/insufficient labels
+    - conflict labels
+    - strict JSON target

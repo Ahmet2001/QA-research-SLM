@@ -1,0 +1,58 @@
+run_name: ResearchReasoner-1.7B-SFT-stage2-hard-long
+base_model_or_adapter: outputs/research_reasoner_1p7b_sft_stage1
+output_dir: outputs/research_reasoner_1p7b_sft_stage2
+
+training_objective: qlora_sft_continue
+max_seq_length: 16384
+packing: false
+
+hard_filter:
+  min_sources: 2
+  min_context_chars: 2500
+  require_one_of:
+    - conflicts
+    - uncertainties
+    - contradicted_claims
+    - multi_hop_evidence
+  reject_if:
+    selected_sources_contains_status:
+      - avoid
+      - contradicted
+
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+optimizer:
+  learning_rate: 0.00001
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  lr_scheduler_type: cosine
+  optim: paged_adamw_8bit
+
+batching:
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 32
+  num_train_epochs: 1
+
+data:
+  train_file: data/processed/sft_stage2_hard_long.jsonl
+  eval_file: data/processed/eval_research_reasoner.jsonl
+
+paper_alignment:
+  vibe_thinker_stage: "Stage 2 Hard-Reasoning SFT"
+  adaptation: "hard and long evidence traces instead of hard long CoT"
+  filter_principles:
+    - remove easy evidence-only samples
+    - keep conflict-heavy multi-source tasks
+    - keep long-document reasoning tasks
+    - keep cases requiring uncertainty/abstention

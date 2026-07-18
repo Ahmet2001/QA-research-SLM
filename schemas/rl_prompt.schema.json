@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ResearchReasoner RL Prompt",
+  "type": "object",
+  "required": ["id", "prompt", "sources", "verifier_hints"],
+  "properties": {
+    "id": {"type": "string"},
+    "task_family": {"type": "string"},
+    "prompt": {"type": "string"},
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_id", "status", "text"],
+        "properties": {
+          "source_id": {"type": "string"},
+          "status": {"type": "string", "enum": ["usable", "avoid", "contradicted", "unknown"]},
+          "text": {"type": "string"}
+        }
+      }
+    },
+    "verifier_hints": {
+      "type": "object",
+      "properties": {
+        "must_cite_source_ids": {"type": "array", "items": {"type": "string"}},
+        "avoid_source_ids": {"type": "array", "items": {"type": "string"}},
+        "requires_uncertainty": {"type": "boolean"},
+        "requires_conflict_detection": {"type": "boolean"},
+        "gold_status": {"type": "string", "enum": ["supported", "contradicted", "insufficient", "mixed", "unknown"]}
+      }
+    }
+  }
+}

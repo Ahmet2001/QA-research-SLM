@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Model and training artifacts
+outputs/
+checkpoints/
+logs/
+eval_outputs/
+wandb/
+runs/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+
+# Caches
+.cache/
+hf_cache/
+transformers_cache/
+datasets_cache/
+
+# Generated data (keep small seed examples only)
+data/*
+!data/seed/
+!data/seed/**
+
+# Scheduler noise
+slurm-*.out
+*.err
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+credentials*
+token*

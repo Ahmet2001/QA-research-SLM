@@ -1,0 +1,28 @@
+run_name: rr_unified_v0
+base_model: Qwen/Qwen3-1.7B
+init_adapter: outputs/research_reasoner_1p7b_v2_rl_lite
+output_dir: outputs/research_reasoner_1p7b_unified_v0
+max_seq_length: 4096
+packing: false
+
+optimizer:
+  learning_rate: 0.000003
+  warmup_ratio: 0.03
+  weight_decay: 0.0
+  lr_scheduler_type: cosine
+  optim: paged_adamw_8bit
+
+batching:
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 8
+  num_train_epochs: 1
+
+logging:
+  save_steps: 250
+  eval_steps: 100
+  logging_steps: 10
+  report_to: none
+
+data:
+  train_file: data/processed/sft_unified_flat.jsonl
+  eval_file: data/processed/eval_v2_flat.jsonl

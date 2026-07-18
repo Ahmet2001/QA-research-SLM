@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ResearchReasoner SFT Trace",
+  "type": "object",
+  "required": ["id", "task_family", "messages", "target"],
+  "properties": {
+    "id": {"type": "string"},
+    "task_family": {
+      "type": "string",
+      "enum": [
+        "research_planning",
+        "document_qa",
+        "evidence_extraction",
+        "claim_verification",
+        "conflict_resolution",
+        "cited_synthesis"
+      ]
+    },
+    "difficulty": {"type": "string", "enum": ["easy", "medium", "hard", "long_horizon"]},
+    "language": {"type": "string"},
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "content"],
+        "properties": {
+          "role": {"type": "string", "enum": ["system", "user", "assistant"]},
+          "content": {"type": "string"}
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_id", "text"],
+        "properties": {
+          "source_id": {"type": "string"},
+          "title": {"type": "string"},
+          "source_type": {"type": "string"},
+          "date": {"type": "string"},
+          "reliability": {"type": "number", "minimum": 0, "maximum": 1},
+          "status": {"type": "string", "enum": ["usable", "avoid", "contradicted", "unknown"]},
+          "text": {"type": "string"}
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "required": ["task_type", "research_plan", "claims", "conflicts", "uncertainties", "answer"],
+      "properties": {
+        "task_type": {"type": "string"},
+        "research_plan": {"type": "array", "items": {"type": "string"}},
+        "evidence_needed": {"type": "array", "items": {"type": "string"}},
+        "selected_sources": {"type": "array", "items": {"type": "string"}},
+        "claims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["claim", "status", "confidence", "evidence"],
+            "properties": {
+              "claim": {"type": "string"},
+              "status": {"type": "string", "enum": ["supported", "contradicted", "insufficient"]},
+              "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+              "evidence": {"type": "array", "items": {"type": "string"}},
+              "importance": {"type": "string", "enum": ["low", "medium", "high"]}
+            }
+          }
+        },
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["issue", "source_ids", "resolution", "confidence"],
+            "properties": {
+              "issue": {"type": "string"},
+              "source_ids": {"type": "array", "items": {"type": "string"}},
+              "resolution": {"type": "string"},
+              "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+            }
+          }
+        },
+        "uncertainties": {"type": "array", "items": {"type": "string"}},
+        "answer": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+run_name: rr_real_compact
+base_model: Qwen/Qwen3-1.7B
+output_dir: outputs/research_reasoner_1p7b_real_compact
+max_seq_length: 4096
+packing: false
+
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+
+optimizer:
+  learning_rate: 0.00002
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  lr_scheduler_type: cosine
+  optim: paged_adamw_8bit
+
+batching:
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 8
+  num_train_epochs: 1
+
+logging:
+  save_steps: 250
+  eval_steps: 100
+  logging_steps: 10
+  report_to: none
+
+data:
+  train_file: data/processed/sft_stage1_real_compact.jsonl
+  eval_file: data/processed/eval_real_compact.jsonl

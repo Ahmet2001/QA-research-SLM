@@ -1,0 +1,49 @@
+run_name: ResearchReasoner-1.7B-GRPO-MGPO-research
+base_model_or_adapter: outputs/research_reasoner_1p7b_sft_stage2
+output_dir: outputs/research_reasoner_1p7b_grpo_research
+
+training_objective: grpo_with_mgpo_weighting
+max_seq_length: 16384
+num_generations: 8
+
+mgpo:
+  group_size: 8
+  target_accuracy: 0.5
+  gamma: 4.0
+  filter_exact_zero_or_one: true
+  note: "Prompts with mixed correct/incorrect rollouts receive higher weight, matching the capability-boundary idea."
+
+rewards:
+  json_validity: 0.12
+  required_fields: 0.10
+  evidence_id_validity: 0.16
+  citation_precision: 0.16
+  supported_claim_ratio: 0.16
+  avoid_bad_sources: 0.12
+  conflict_detection: 0.08
+  uncertainty_calibration: 0.06
+  brevity_efficiency: 0.04
+  penalties:
+    fabricated_citation: -0.25
+    selected_avoid_or_contradicted_source: -0.25
+    unsupported_important_claim: -0.30
+    missing_required_uncertainty: -0.12
+    invalid_json: -0.35
+
+long2short_research:
+  enabled_after_accuracy_plateau: true
+  apply_only_to_correct_outputs: true
+  reward_shorter_correct_json: true
+  unchanged_reward_for_incorrect_outputs: true
+  note: "Research adaptation of Long2Short: after correctness/grounding is stable, reduce redundant text without rewarding shallow unsupported answers."
+
+data:
+  train_file: data/processed/rl_prompts.jsonl
+  eval_file: data/processed/eval_research_reasoner.jsonl
+
+paper_alignment:
+  vibe_thinker_stage: "Multi-domain Reasoning RL + MGPO + Long2Short"
+  adaptation:
+    - "math final answer verification -> claim/evidence verification"
+    - "code sandbox tests -> citation/source/schema validators"
+    - "STEM answer matching -> supported/contradicted/insufficient labels"
