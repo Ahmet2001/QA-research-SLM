@@ -58,11 +58,21 @@ def validate_row(row: Dict[str, Any], line_no: int) -> List[str]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("files", nargs="+")
+    ap.add_argument("files", nargs="*", help="JSONL files to validate")
+    ap.add_argument(
+        "--input",
+        dest="input_files",
+        action="append",
+        metavar="FILE",
+        help="JSONL file to validate (repeat for multiple files)",
+    )
     args = ap.parse_args()
+    files = [*args.files, *(args.input_files or [])]
+    if not files:
+        ap.error("provide at least one JSONL file or --input FILE")
     total = 0
     all_errors: List[str] = []
-    for file_name in args.files:
+    for file_name in files:
         path = Path(file_name)
         for line_no, row in read_jsonl(path):
             total += 1
